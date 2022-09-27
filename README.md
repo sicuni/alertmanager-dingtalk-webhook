@@ -13,7 +13,7 @@ alert:test-load-1
 expr:node_load1 > 1
 for: 2m
 labels:
-    dingTalk: https://oapi.dingtalk.com/robot/send?access_token=xxxxx
+    dingtalk: https://oapi.dingtalk.com/robot/send?access_token=xxxxx
 annotations:
 description: {{$labels.instance}}: job {{$labels.job}} 测试测试 负载大于1
 summary: {{$labels.instance}}: load1 >1

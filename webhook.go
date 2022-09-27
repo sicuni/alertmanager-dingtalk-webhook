@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"net/http"
-	"github.com/sicuni/alertmanaer-dingtalk-webhook/model"
-	"github.com/sicuni/alertmanaer-dingtalk-webhook/notifier"
+	"github.com/sicuni/alertmanager-dingtalk-webhook/model"
+	"github.com/sicuni/alertmanager-dingtalk-webhook/notifier"
 	"github.com/gin-gonic/gin"
 )
 
@@ -39,7 +39,7 @@ func main() {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		notifyDingTalk := notification.CommonLabels["dingTalk"]
+		notifyDingTalk := notification.CommonLabels["dingtalk"]
 		err = notifier.Send(notification, notifyDingTalk)
 
 		if err != nil {
