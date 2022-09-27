@@ -3,6 +3,7 @@ package transformer
 import (
 	"bytes"
 	"fmt"
+	"time"
 
 	"github.com/sicuni/alertmanager-dingtalk-webhook/model"
 )
@@ -17,10 +18,14 @@ func TransformToMarkdown(notification model.Notification) (markdown *model.DingT
 	robotURL = annotations["dingtalkRobot"]
 
 	var buffer bytes.Buffer
+	buffer.WriteString("# 星智云警报\n")
 
+	var cstSh, _ = time.LoadLocation("Asia/Shanghai")
 	for _, alert := range notification.Alerts {
 		annotations := alert.Annotations
-		buffer.WriteString(fmt.Sprintf("\n> 告警时间：%s\n", alert.StartsAt.Format("15:04:05")))
+		alert.StartsAt = alert.StartsAt.In(cstSh)
+		alert.EndsAt = alert.EndsAt.In(cstSh)
+		buffer.WriteString(fmt.Sprintf("\n> 告警时间：%s\n", alert.StartsAt.Format("2006-01-02 15:04:05")))
 		buffer.WriteString(fmt.Sprintf("\n> 告警内容：%s\n", annotations["description"]))
 		buffer.WriteString(fmt.Sprintf("\n> 告警范围：%s\n", alert.Labels["clustername"]))
 
