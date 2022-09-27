@@ -18,7 +18,7 @@ func TransformToMarkdown(notification model.Notification) (markdown *model.DingT
 	robotURL = annotations["dingtalkRobot"]
 
 	var buffer bytes.Buffer
-	buffer.WriteString("# 星智云警报\n")
+	buffer.WriteString("### <font color=\"red\"> ！</font>星智云警报\n")
 
 	var cstSh, _ = time.LoadLocation("Asia/Shanghai")
 	for _, alert := range notification.Alerts {
@@ -27,7 +27,7 @@ func TransformToMarkdown(notification model.Notification) (markdown *model.DingT
 		alert.EndsAt = alert.EndsAt.In(cstSh)
 		buffer.WriteString(fmt.Sprintf("\n> 告警时间：%s\n", alert.StartsAt.Format("2006-01-02 15:04:05")))
 		buffer.WriteString(fmt.Sprintf("\n> 告警内容：%s\n", annotations["description"]))
-		buffer.WriteString(fmt.Sprintf("\n> 告警范围：%s\n", alert.Labels["clustername"]))
+		buffer.WriteString(fmt.Sprintf("\n> 资源范围：%s\n", alert.Labels["clustername"]))
 
 	}
 
