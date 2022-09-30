@@ -2,10 +2,12 @@ package main
 
 import (
 	"flag"
-	"net/http"
+	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/sicuni/alertmanager-dingtalk-webhook/model"
 	"github.com/sicuni/alertmanager-dingtalk-webhook/notifier"
-	"github.com/gin-gonic/gin"
+	"net/http"
+	"strconv"
 )
 
 var (
@@ -40,6 +42,10 @@ func main() {
 			return
 		}
 		notifyDingTalk := notification.CommonLabels["dingtalk"]
+		if notification.CommonLabels["triggers"] == "" {
+			value, _ := strconv.ParseFloat(notification.CommonLabels["triggers"], 10)
+			notification.CommonAnnotations["description"] = fmt.Sprintf(notification.CommonAnnotations["description"] + "%%", value * 100)
+		}
 		err = notifier.Send(notification, notifyDingTalk)
 
 		if err != nil {
