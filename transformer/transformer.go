@@ -22,6 +22,9 @@ func TransformToMarkdown(notification model.Notification) (markdown *model.DingT
 
 	var cstSh, _ = time.LoadLocation("Asia/Shanghai")
 	for _, alert := range notification.Alerts {
+		if alert.Status == "resolved" {
+			continue
+		}
 		annotations := alert.Annotations
 		alert.StartsAt = alert.StartsAt.In(cstSh)
 		alert.EndsAt = alert.EndsAt.In(cstSh)

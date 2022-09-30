@@ -7,6 +7,7 @@ type Alert struct {
 	Annotations map[string]string `json:annotations`
 	StartsAt    time.Time         `json:"startsAt"`
 	EndsAt      time.Time         `json:"endsAt"`
+	Status      string			  `json:"status"`
 }
 
 type Notification struct {
